@@ -1,0 +1,51 @@
+import { LogoutOutlined, SettingsOutlined } from "@mui/icons-material";
+import { Avatar, List, ListItemButton, Popover } from "@mui/material";
+import { useContext, useState, type MouseEvent } from "react";
+import { DROP_SHADOW_DARK, DROP_SHADOW_LIGHT, HOVER_BG_LIGHT, TEXT_LIGHT } from "../../constants/style";
+import { SignOutButton, useUser } from "@clerk/react";
+import { useNavigate } from "react-router-dom";
+import { ThemeContext } from "../../contexts/ThemeContext";
+import { Theme } from "../../enums/Theme";
+
+function AvatarButton() {
+    const themeContext = useContext(ThemeContext);
+    if (!themeContext) return null;
+    const { theme } = themeContext;
+
+    const { user } = useUser();
+
+    const navigate = useNavigate();
+
+    const [anchorElement, setAnchorElement] = useState<HTMLDivElement | null>(null);
+
+    const handleOpenPopover = (_event: MouseEvent<HTMLDivElement>) => {
+        setAnchorElement(_event.currentTarget);
+    };
+    const handleClosePopover = () => {
+        setAnchorElement(null);
+    };
+
+    const handleSettingClick = () => {
+        navigate("/user/123/setting");
+    };
+
+    return (
+        <>
+            <Avatar className={`size-8! ${!user?.imageUrl && 'p-1'} cursor-pointer ${theme === Theme.Light && 'outline-1 outline-zinc-400'}`} src={user?.imageUrl} sx={{ bgcolor: user ? "deepskyblue" : "transparent" }} onClick={handleOpenPopover}>{user?.fullName.trim().charAt(0)}</Avatar>
+            <Popover className={`top-3! drop-shadow-lg ${theme === Theme.Light ? DROP_SHADOW_LIGHT : DROP_SHADOW_DARK}`} open={Boolean(anchorElement) && Boolean(user)} anchorEl={anchorElement} anchorOrigin={{ vertical: "bottom", horizontal: "left" }} onClose={handleClosePopover}>
+                <List className="text-sm">
+                    <ListItemButton className={`gap-2 ${HOVER_BG_LIGHT}`} disableRipple onClick={handleSettingClick}>
+                        <SettingsOutlined className={`size-5! ${TEXT_LIGHT}`}/>
+                        Setting
+                    </ListItemButton>
+                    <ListItemButton className={`gap-2 ${HOVER_BG_LIGHT}`} disableRipple>
+                        <LogoutOutlined className={`size-5! ${TEXT_LIGHT}`}/>
+                        <SignOutButton/>
+                    </ListItemButton>
+                </List>
+            </Popover>
+        </>
+    );
+}
+
+export default AvatarButton;

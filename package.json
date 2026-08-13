@@ -4,15 +4,15 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host 0.0.0.0",
     "build": "tsc -b && vite build",
     "lint": "oxlint",
     "preview": "vite preview"
   },
   "dependencies": {
+    "@clerk/react": "^6.14.1",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
-    "@greatsumini/react-facebook-login": "^3.4.0",
     "@mui/icons-material": "^9.3.1",
     "@mui/material": "^9.3.1",
     "@mui/x-charts": "^9.11.1",
@@ -27,6 +27,7 @@
     "@tanstack/react-query": "^5.101.4",
     "@tanstack/react-router": "^1.170.21",
     "@tanstack/react-start": "^1.168.38",
+    "axios": "^1.19.0",
     "dayjs": "^1.11.21",
     "js-sha256": "^1.0.0",
     "motion": "^13.0.0",
