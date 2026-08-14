@@ -4,6 +4,8 @@ import { IconButton, Tooltip } from "@mui/material";
 import { DarkModeOutlined, LightModeOutlined } from "@mui/icons-material";
 import { Theme } from "../../enums/Theme";
 import { HOVER_BG_DARK, HOVER_BG_LIGHT, TEXT_DARK, TEXT_LIGHT } from "../../constants/style";
+import { motion } from "motion/react";
+import { ANIMATION_DURATION } from "../../constants/other";
 
 function ThemeToggleButton() {
     const themeContext = useContext(ThemeContext);
@@ -18,8 +20,8 @@ function ThemeToggleButton() {
 
     return (
         <Tooltip title={`${theme === Theme.Light ? 'Light theme' : 'Dark theme'}`}>
-            <IconButton className={`${theme === Theme.Light ? HOVER_BG_LIGHT : HOVER_BG_DARK}`} color={"inherit"} onClick={handleToggleTheme}>
-                {theme === Theme.Light ? <LightModeOutlined className={`size-5! ${TEXT_LIGHT}`}/> : <DarkModeOutlined className={`size-5! ${TEXT_DARK}`}/>}
+            <IconButton className={`${theme === Theme.Light ? HOVER_BG_LIGHT : HOVER_BG_DARK}`} color={"inherit"} component={motion.button} initial={{ rotate: "0deg" }} whileHover={{ rotate: "360deg" }} transition={{ duration: ANIMATION_DURATION * 2 }} onClick={handleToggleTheme}>
+                {theme === Theme.Light ? <LightModeOutlined className={`size-5! ${TEXT_LIGHT}`} /> : <DarkModeOutlined className={`size-5! ${TEXT_DARK}`} />}
             </IconButton>
         </Tooltip>
     );

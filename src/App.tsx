@@ -1,4 +1,4 @@
-import { useAuth } from '@clerk/react';
+import { useAuth, useUser } from '@clerk/react';
 import { Alert, Snackbar } from '@mui/material';
 import { useMutation } from '@tanstack/react-query';
 import type { AxiosError } from 'axios';
@@ -12,9 +12,11 @@ import type { ResponseEntity } from './interfaces/ResponseEntity';
 import type { User } from './interfaces/User';
 import MainLayout from './layouts/MainLayout';
 import Home from './pages/Home';
+import Settings from './pages/Settings';
 
 function App() {
-    const { isSignedIn, isLoaded, getToken } = useAuth();
+    const { getToken } = useAuth();
+    const { isSignedIn, isLoaded } = useUser();
 
     const [theme, setTheme] = useState<Theme>(() => {
         const value = localStorage.getItem("vletter_theme") as Theme;
@@ -51,7 +53,7 @@ function App() {
                     setMessage("Failed to authenticate. Please try again later");
                     setOpenAlert(true);
                 }
-            ), 1000);
+            ), 500);
             return () => { clearTimeout(timeout); }
         }
     }, [isSignedIn]);
@@ -60,6 +62,7 @@ function App() {
         createRoutesFromElements(
             <Route element={<MainLayout />}>
                 <Route index element={<Home />} />
+                <Route path={"/settings"} element={<Settings/>}/>
             </Route>
         )
     );

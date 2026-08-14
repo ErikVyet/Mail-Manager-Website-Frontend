@@ -23,13 +23,12 @@ function Navbar() {
         { label: "Home", path: "/", popover: null },
         { label: "Plans", path: "/plan", popover: null },
         { label: "About me", path: "/about", popover: null },
-        { label: "Stacks", path: null },
-        { label: "Socials", path: null, popover: <SocialPopover/> },
+        { label: "Socials", path: null, popover: <SocialPopover /> },
         { label: "Projects", path: null }
     ];
 
     return (
-        <AppBar className={`flex-row! h-14 border-b ${theme === Theme.Light ? `${BG_LIGHT_SECONDARY} ${BORDER_LIGHT}` : `${BG_DARK_SECONDARY} ${BORDER_DARK}`}`} elevation={0}>
+        <AppBar className={`flex-row! h-[10vh] border-b ${theme === Theme.Light ? `${BG_LIGHT_SECONDARY} ${BORDER_LIGHT}` : `${BG_DARK_SECONDARY} ${BORDER_DARK}`}`} elevation={0}>
             <Banner />
             <NavbarLinkGroup>
                 {navigations.map((nav, index) =>
@@ -43,7 +42,7 @@ function Navbar() {
                     <AvatarButton />
                 </Stack>
                 {!isLoaded && Array.from({ length: 2 }).map((_, index) =>
-                    <Skeleton className={`${theme === Theme.Light ? BG_SKELETON_LIGHT : BG_SKELETON_DARK}`} width={72} height={20} key={index}/>
+                    <Skeleton className={`${theme === Theme.Light ? BG_SKELETON_LIGHT : BG_SKELETON_DARK}`} width={72} height={20} key={index} />
                 )}
                 {!user && isLoaded && (
                     <Button className={`px-2! py-0.5! font-mono! font-normal! ${theme === Theme.Light ? `${TEXT_LIGHT} ${HOVER_BG_LIGHT}` : `${TEXT_DARK} ${HOVER_BG_DARK}`}`} color={"inherit"} disableRipple>
