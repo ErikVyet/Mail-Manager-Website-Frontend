@@ -1,4 +1,4 @@
-import { Button, Collapse, List, ListItem, ListItemButton, Stack, Typography } from "@mui/material";
+import { Box, Button, Collapse, Divider, List, ListItem, ListItemButton, Stack, Typography } from "@mui/material";
 import { Theme } from "../../enums/Theme";
 import { useContext, useState } from "react";
 import { ThemeContext } from "../../contexts/ThemeContext";
@@ -43,7 +43,11 @@ function VerticalExpandableMenu({ icon = null, label, items }: VerticalExpandabl
             <Collapse in={expand}>
                 {items.map((item, index) =>
                     <ListItemButton className={`${theme === Theme.Light ? HOVER_BG_LIGHT : HOVER_BG_DARK} rounded-sm! py-0!`} key={index} onClick={() => handleItemClick(item.path)}>
-                        <Typography className={`pl-3.5 py-1.25 border-l text-sm! font-mono! ${theme === Theme.Light ? `${TEXT_LIGHT} border-zinc-400` : `${TEXT_DARK} border-zinc-600`}`}>{item.label}</Typography>
+                        <Box className="relative w-full">
+                            <Typography className={`pl-6 py-1.25 text-sm! font-mono! ${theme === Theme.Light ? `${TEXT_LIGHT}` : `${TEXT_DARK}`}`}>{item.label}</Typography>
+                            <Divider className={`absolute left-0 top-1/2 w-3 ${theme === Theme.Light ? 'border-zinc-400!' : 'border-zinc-600!'}`}/>
+                            <Divider className={`absolute top-0 left-0 ${index === items.length - 1 ? 'h-1/2!' : 'h-full!'} ${theme === Theme.Light ? 'border-zinc-400!' : 'border-zinc-600!'}`} orientation={"vertical"}/>
+                        </Box>
                     </ListItemButton>
                 )}
             </Collapse>

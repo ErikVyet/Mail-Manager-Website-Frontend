@@ -18,7 +18,7 @@ function Banner() {
     };
 
     return (
-        <Stack className="w-fit h-full p-4 items-center justify-center gap-1.5 cursor-pointer" direction={"row"} onClick={handleBannerClick}>
+        <Stack className="w-fit h-full p-4 items-center justify-center gap-1.5 cursor-pointer select-none" direction={"row"} onClick={handleBannerClick}>
             <EmailOutlined className={`size-6! ${theme === Theme.Light ? TEXT_LIGHT : TEXT_DARK}`}/>
             <Typography className={`font-mono! font-semibold! tracking-wider! ${theme === Theme.Light ? TEXT_LIGHT : TEXT_DARK}`} variant={"h6"}>VLetter</Typography>
         </Stack>

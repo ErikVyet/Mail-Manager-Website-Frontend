@@ -6,6 +6,7 @@ export interface User {
     name: string,
     email: string,
     avatar: string | null,
+    description: string | null,
     status: UserStatus,
     createdAt: Dayjs
 }

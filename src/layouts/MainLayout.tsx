@@ -6,11 +6,16 @@ import { ThemeContext } from '../contexts/ThemeContext';
 import { Theme } from '../enums/Theme';
 import { BG_DARK_PRIMARY, BG_LIGHT_PRIMARY } from '../constants/style';
 import { useUser } from '@clerk/react';
+import { UserContext } from '../contexts/UserContext';
 
 function MainLayout() {
     const themeContext = useContext(ThemeContext);
     if (!themeContext) return null;
     const { theme } = themeContext;
+
+    const userContext = useContext(UserContext);
+    if (!userContext) return null;
+    const { user, isLoading } = userContext;
 
     const { isSignedIn } = useUser();
 
@@ -31,8 +36,17 @@ function MainLayout() {
         }
     }, [isSignedIn]);
 
+    useEffect(() => {
+        if (!user && !isLoading) {
+            const timeout = setTimeout(() => {
+                navigate("/");
+            }, 1000);
+            return () => { clearTimeout(timeout); }
+        }
+    }, [user]);
+
     return (
-        <Container className={`min-h-screen max-h-max pt-14! ${theme === Theme.Light ? BG_LIGHT_PRIMARY : BG_DARK_PRIMARY}`} maxWidth={false}>
+        <Container className={`min-h-screen max-h-max pt-[10vh] ${theme === Theme.Light ? BG_LIGHT_PRIMARY : BG_DARK_PRIMARY}`} maxWidth={false}>
             <Navbar/>
             <Outlet/>
         </Container>
