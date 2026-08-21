@@ -4,18 +4,21 @@ import { useMutation } from '@tanstack/react-query';
 import type { AxiosError } from 'axios';
 import { useEffect, useState, type MouseEvent } from 'react';
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom';
+import ProfileView from './components/settings/ProfileView';
+import ThemeView from "./components/settings/ThemeView";
 import { ALERT_DURATION } from './constants/other';
 import { ThemeContext } from './contexts/ThemeContext';
+import { UserContext } from './contexts/UserContext';
 import { Theme } from './enums/Theme';
 import { fetchUser } from './functions/user/fetchUser';
+import { useNetworkStatus } from './hooks/useNetworkStatus';
 import type { ResponseEntity } from './interfaces/ResponseEntity';
 import type { User } from './interfaces/User';
 import MainLayout from './layouts/MainLayout';
 import Home from './pages/Home';
 import Settings from './pages/Settings';
-import Profile from './components/settings/Profile';
-import { UserContext } from './contexts/UserContext';
-import { useNetworkStatus } from './hooks/useNetworkStatus';
+import SignatureView from './components/settings/SignatureView';
+import ApiView from './components/settings/ApiView';
 
 function App() {
     const { getToken } = useAuth();
@@ -86,7 +89,10 @@ function App() {
             <Route element={<MainLayout />}>
                 <Route index element={<Home />} />
                 <Route path={"/settings"} element={<Settings/>}>
-                    <Route path={"personalize/profile"} element={<Profile/>}/>
+                    <Route path={"personalize/profile"} element={<ProfileView/>}/>
+                    <Route path={"personalize/theme"} element={<ThemeView/>}/>
+                    <Route path={"developer/api"} element={<ApiView/>}/>
+                    <Route path={"configure/secret-key"} element={<SignatureView/>}/>
                 </Route>
             </Route>
         )

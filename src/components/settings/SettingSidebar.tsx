@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
 import SettingSearchbar from "./SettingSearchbar";
-import { EditOutlined, SettingsOutlined } from "@mui/icons-material";
+import { Code, EditOutlined, SettingsOutlined } from "@mui/icons-material";
 import VerticalExpandableMenu from "../common/VerticalExpandableMenu";
 
 function SettingSidebar() {
@@ -9,15 +9,23 @@ function SettingSidebar() {
         label: "Personalize",
         items: [
             { label: "Profile", path: "/settings/personalize/profile" },
-            { label: "Theme", path: "settings/personalize/theme" }
+            { label: "Theme", path: "/settings/personalize/theme" }
         ]
     };
+
+    const developers = {
+        icon: <Code className="size-4!"/>,
+        label: "Developer",
+        items: [
+            { label: "API", path: "/settings/developer/api" }
+        ]
+    }
 
     const configurations = {
         icon: <SettingsOutlined className="size-4!" />,
         label: "Configure",
         items: [
-            { label: "Secret key", path: "/settings/configure/secret-key" }
+            { label: "Signature", path: "/settings/configure/secret-key" }
         ]
     };
 
@@ -26,6 +34,7 @@ function SettingSidebar() {
             <SettingSearchbar/>
             <Box className="pt-4">
                 <VerticalExpandableMenu icon={personalize.icon} label={personalize.label} items={personalize.items}/>
+                <VerticalExpandableMenu icon={developers.icon} label={developers.label} items={developers.items} />
                 <VerticalExpandableMenu icon={configurations.icon} label={configurations.label} items={configurations.items}/>
             </Box>
         </Box>

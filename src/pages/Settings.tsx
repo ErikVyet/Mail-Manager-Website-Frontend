@@ -8,7 +8,7 @@ function Settings() {
             <Box className="flex-[25%] grow-0 shrink-0">
                 <SettingSidebar/>
             </Box>
-            <Box className="flex-[75%] grow-0 shrink-0">
+            <Box className="flex-[75%] grow-0 shrink-0 overflow-x-hidden">
                 <Outlet/>
             </Box>
         </Stack>

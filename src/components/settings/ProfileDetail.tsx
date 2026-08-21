@@ -53,7 +53,7 @@ function ProfileDetail() {
     }, [user]);
 
     useEffect(() => {
-        setOpenAlert(!(description === (user?.description ?? "")) || updateUserQuery.isPending);
+        setOpenAlert(user && !(description === (user?.description ?? "")) || updateUserQuery.isPending);
     }, [description, user]);
 
     const handleDescriptionInput = (_event: InputEvent<HTMLTextAreaElement>) => {
@@ -88,12 +88,29 @@ function ProfileDetail() {
             )}
             <Stack className="flex-1 gap-8">
                 <Box className="w-full">
-                    <Typography className={`font-sans! font-semibold! ${theme === Theme.Light ? TEXT_LIGHT : TEXT_DARK}`} variant={"h5"}>{user?.name}</Typography>
-                    <Typography className="font-sans! font-normal! text-zinc-500" variant={"subtitle1"}>{user?.email}</Typography>
+                    {isLoading ? (
+                        <>
+                            <Skeleton className={`${theme === Theme.Light ? BG_SKELETON_LIGHT : BG_SKELETON_DARK}`} width={250} height={36}/>
+                            <Skeleton className={`${theme === Theme.Light ? BG_SKELETON_LIGHT : BG_SKELETON_DARK}`} width={300}/>
+                        </>
+                    ) : (
+                        <>
+                            <Typography className={`font-sans! font-semibold! ${theme === Theme.Light ? TEXT_LIGHT : TEXT_DARK}`} variant={"h5"}>{user?.name ?? "Guest"}</Typography>
+                            <Typography className="font-sans! font-normal! text-zinc-500" variant={"subtitle1"}>{user?.email}</Typography>
+                        </>
+                    )}
                 </Box>
                 <Box className="relative size-full">
-                    <Box className={`size-full! p-2 ${AVATAR_OUTLINE} rounded-md text-sm font-mono ${theme === Theme.Light ? `${TEXT_LIGHT} ${BG_INPUT_LIGHT}` : `${TEXT_DARK} ${BG_INPUT_DARK}`}`} component={"textarea"} placeholder={"Describe yourself..."} maxLength={255} sx={{ resize: "none", "::placeholder": { color: theme === Theme.Light ? "darkgray" : "gray" } }} value={description} spellCheck={false} onInput={handleDescriptionInput} />
-                    <Typography className="absolute right-2 bottom-1 text-xs! text-zinc-500 font-mono! select-none" style={{ color: theme === Theme.Light ? "#6b7280" : "#9ca3af" }}>{description.length}/255</Typography>
+                    {isLoading ? (
+                        <>
+                            <Skeleton className={`${theme === Theme.Light ? BG_SKELETON_LIGHT : BG_SKELETON_DARK}`} height={"100%"}/>
+                        </>
+                    ) : (
+                        <>
+                            <Box className={`size-full! p-2 ${AVATAR_OUTLINE} rounded-md text-sm font-mono ${theme === Theme.Light ? `${TEXT_LIGHT} ${BG_INPUT_LIGHT}` : `${TEXT_DARK} ${BG_INPUT_DARK}`}`} component={"textarea"} placeholder={"Describe yourself..."} maxLength={255} sx={{ resize: "none", "::placeholder": { color: theme === Theme.Light ? "darkgray" : "gray" } }} value={description} spellCheck={false} disabled={!user} onInput={handleDescriptionInput} />
+                            <Typography className="absolute right-2 bottom-1 text-xs! text-zinc-500 font-mono! select-none" style={{ color: theme === Theme.Light ? "#6b7280" : "#9ca3af" }}>{description.length}/255</Typography>
+                        </>
+                    )}
                 </Box>
             </Stack>
             <Snackbar className={`rounded-md`} open={openAlert} anchorOrigin={{ vertical: "bottom", horizontal: "center" }}>

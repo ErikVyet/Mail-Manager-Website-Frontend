@@ -1,5 +1,5 @@
 import { Container } from '@mui/material';
-import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { Outlet, ScrollRestoration, useNavigate } from 'react-router-dom';
 import Navbar from '../components/common/Navbar';
 import { useContext, useEffect } from 'react';
 import { ThemeContext } from '../contexts/ThemeContext';
@@ -19,13 +19,7 @@ function MainLayout() {
 
     const { isSignedIn } = useUser();
 
-    const { pathname } = useLocation();
-
     const navigate = useNavigate();
-
-    useEffect(() => {
-        window.scrollTo({ top: 0, behavior: "smooth" });
-    }, [pathname]);
 
     useEffect(() => {
         if (!isSignedIn) {
@@ -40,13 +34,14 @@ function MainLayout() {
         if (!user && !isLoading) {
             const timeout = setTimeout(() => {
                 navigate("/");
-            }, 1000);
+            }, 2000);
             return () => { clearTimeout(timeout); }
         }
     }, [user]);
 
     return (
         <Container className={`min-h-screen max-h-max pt-[10vh] ${theme === Theme.Light ? BG_LIGHT_PRIMARY : BG_DARK_PRIMARY}`} maxWidth={false}>
+            <ScrollRestoration/>
             <Navbar/>
             <Outlet/>
         </Container>
