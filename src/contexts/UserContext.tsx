@@ -3,6 +3,6 @@ import type { User } from "../interfaces/User";
 
 export const UserContext = createContext<{
     isLoading: boolean,
-    user: User,
-    setUser: Dispatch<SetStateAction<User>>
+    user: User | null,
+    setUser: Dispatch<SetStateAction<User | null>>
 } | null>(null);

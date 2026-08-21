@@ -48,7 +48,7 @@ function ApiKeyTable() {
         mutationFn: (token) => createApiKey(token),
         onSuccess: ({ message }) => {
             setIsError(false);
-            setMessage(message);
+            setMessage(message as string);
             setOpenAlert(true);
         },
         onError: ({ response }) => {
@@ -72,7 +72,7 @@ function ApiKeyTable() {
 
     useEffect(() => {
         getToken({ template: import.meta.env.VITE_CLERK_JWT_TEMPLATE as string }).then(
-            (token) => readApiKeysQuery.mutate(token),
+            (token) => readApiKeysQuery.mutate(token as string),
             (_) => {
                 setIsError(true);
                 setMessage("Failed to authenticate. Please try again later");
@@ -83,7 +83,7 @@ function ApiKeyTable() {
 
     const handleGenerateApiKey = () => {
         getToken({ template: import.meta.env.VITE_CLERK_JWT_TEMPLATE as string }).then(
-            (token) => createApiKeyQuery.mutate(token),
+            (token) => createApiKeyQuery.mutate(token as string),
             (_) => {
                 setIsError(true);
                 setMessage("Failed to authenticate. Please try again later");
@@ -93,7 +93,7 @@ function ApiKeyTable() {
     };
     const handleReloadApiKeys = () => {
         getToken({ template: import.meta.env.VITE_CLERK_JWT_TEMPLATE as string }).then(
-            (token) => readApiKeysQuery.mutate(token),
+            (token) => readApiKeysQuery.mutate(token as string),
             (_) => {
                 setIsError(true);
                 setMessage("Failed to authenticate. Please try again later");
@@ -117,7 +117,7 @@ function ApiKeyTable() {
                         <Box className="absolute top-0 left-0 size-full bg-blue-600 rounded-xs opacity-30 z-0"/>
                     </Box>
                 </Stack>
-                <Button className={`px-3! shadow-md! ${theme === Theme.Light ? `${TEXT_LIGHT} ${BG_INPUT_LIGHT}` : `${TEXT_DARK} ${BG_INPUT_DARK}`} font-sans! normal-case!`} color={"inherit"} endIcon={<Add className={`size-4.5! ${theme === Theme.Light ? TEXT_LIGHT : TEXT_DARK}`}/>} onClick={handleGenerateApiKey}>Generate</Button>
+                <Button className={`px-3! shadow-md! ${theme === Theme.Light ? `${TEXT_LIGHT} ${BG_INPUT_LIGHT}` : `${TEXT_DARK} ${BG_INPUT_DARK}`} font-sans! normal-case!`} color={"inherit"} endIcon={<Add className={`size-4.5! ${theme === Theme.Light ? TEXT_LIGHT : TEXT_DARK}`}/>} loading={createApiKeyQuery.isPending || readApiKeysQuery.isPending} onClick={handleGenerateApiKey}>Generate</Button>
             </Toolbar>
             <Stack className={`w-full p-2 gap-2 rounded-xl shadow-md ${theme === Theme.Light ? `${BG_LIGHT_SECONDARY} ${SHADOW_LIGHT}` : `${BG_DARK_SECONDARY} ${SHADOW_DARK}`}`}>
                 <ApiKeyTableHeader/>

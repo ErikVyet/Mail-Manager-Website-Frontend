@@ -29,7 +29,7 @@ function SignatureView() {
     const readSignatureQuery = useMutation<ResponseEntity<string>, AxiosError<ResponseEntity<any>>, string>({
         mutationFn: (token) => fetchSignature(token),
         onSuccess: ({ data }) => {
-            setSignature(data);
+            setSignature(data as string);
         },
         onError: ({ response }) => {
             setIsError(true);
@@ -43,9 +43,9 @@ function SignatureView() {
         mutationFn: (token) => regenerateSignature(token),
         onSuccess: ({ data, message }) => {
             setIsError(false);
-            setMessage(message);
+            setMessage(message ?? "Successfully regenerated new signature");
             setOpenAlert(true);
-            setSignature(data);
+            setSignature(data as string);
         },
         onError: ({ response }) => {
             setIsError(true);
@@ -58,7 +58,7 @@ function SignatureView() {
     useEffect(() => {
         if (isSignedIn) {
             getToken({ template: import.meta.env.VITE_CLERK_JWT_TEMPLATE as string }).then(
-                (token) => readSignatureQuery.mutate(token),
+                (token) => readSignatureQuery.mutate(token as string),
                 (_) => {
                     setIsError(true);
                     setMessage("Failed to authenticate. Please try again later");
@@ -70,7 +70,7 @@ function SignatureView() {
 
     const handleRegenerateSignatureClick = () => {
         getToken({ template: import.meta.env.VITE_CLERK_JWT_TEMPLATE as string }).then(
-            (token) => regenerateSignatureQuery.mutate(token),
+            (token) => regenerateSignatureQuery.mutate(token as string),
             (_) => {
                 setIsError(true);
                 setMessage("Failed to authenticate. Please try again later");

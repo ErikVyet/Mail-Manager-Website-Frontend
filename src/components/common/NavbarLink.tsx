@@ -12,10 +12,10 @@ import { ANIMATION_DURATION } from "../../constants/other";
 type NavbarLinkProps = {
     label: string,
     path: string | null,
-    popoverElement: JSX.Element | null
+    popoverElement?: JSX.Element | null
 }
 
-function NavbarLink({ label, path, popoverElement }: NavbarLinkProps) {
+function NavbarLink({ label, path, popoverElement = null }: NavbarLinkProps) {
     const themeContext = useContext(ThemeContext);
     if (!themeContext) return null;
     const { theme } = themeContext;

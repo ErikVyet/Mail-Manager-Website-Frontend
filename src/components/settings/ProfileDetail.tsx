@@ -34,7 +34,7 @@ function ProfileDetail() {
         mutationFn: ({ user, token }) => updateUser(user, token),
         onSuccess: ({ data, message }) => {
             setIsError(false);
-            setMessage(message);
+            setMessage(message ?? "Successfully updated profile");
             setOpenQueryAlert(true);
             setUser(data);
         },
@@ -64,7 +64,7 @@ function ProfileDetail() {
     };
     const handleSaveClick = () => {
         getToken({ template: import.meta.env.VITE_CLERK_JWT_TEMPLATE as string }).then(
-            (token) => updateUserQuery.mutate({ user: {...user, description}, token }),
+            (token) => updateUserQuery.mutate({ user: {...user, description} as User, token: token as string }),
             (_) => {
                 setIsError(true);
                 setMessage("Failed to authenticate. Please try again later");
@@ -84,7 +84,7 @@ function ProfileDetail() {
             {isLoading ? (
                 <Skeleton className={`size-60! ${theme === Theme.Light ? BG_SKELETON_LIGHT : BG_SKELETON_DARK}`} variant={"circular"}/>
             ) : (
-                <Avatar className={`size-60! ${user === null && 'p-4'} bg-transparent! text-8xl! ${AVATAR_OUTLINE} shadow-lg ${theme === Theme.Light ? SHADOW_LIGHT : SHADOW_DARK}`} src={user?.avatar} slotProps={{ img: { draggable: false } }}>{user?.name.charAt(0)}</Avatar>
+                <Avatar className={`size-60! ${user === null && 'p-4'} bg-transparent! text-8xl! ${AVATAR_OUTLINE} shadow-lg ${theme === Theme.Light ? SHADOW_LIGHT : SHADOW_DARK}`} src={user?.avatar ?? undefined} slotProps={{ img: { draggable: false } }}>{user?.name.charAt(0)}</Avatar>
             )}
             <Stack className="flex-1 gap-8">
                 <Box className="w-full">
@@ -107,8 +107,8 @@ function ProfileDetail() {
                         </>
                     ) : (
                         <>
-                            <Box className={`size-full! p-2 ${AVATAR_OUTLINE} rounded-md text-sm font-mono ${theme === Theme.Light ? `${TEXT_LIGHT} ${BG_INPUT_LIGHT}` : `${TEXT_DARK} ${BG_INPUT_DARK}`}`} component={"textarea"} placeholder={"Describe yourself..."} maxLength={255} sx={{ resize: "none", "::placeholder": { color: theme === Theme.Light ? "darkgray" : "gray" } }} value={description} spellCheck={false} disabled={!user} onInput={handleDescriptionInput} />
-                            <Typography className="absolute right-2 bottom-1 text-xs! text-zinc-500 font-mono! select-none" style={{ color: theme === Theme.Light ? "#6b7280" : "#9ca3af" }}>{description.length}/255</Typography>
+                            <Box className={`size-full! p-2 ${AVATAR_OUTLINE} rounded-md text-sm font-mono ${theme === Theme.Light ? `${TEXT_LIGHT} ${BG_INPUT_LIGHT}` : `${TEXT_DARK} ${BG_INPUT_DARK}`}`} component={"textarea"} placeholder={"Describe yourself..."} maxLength={255} sx={{ resize: "none", "::placeholder": { color: theme === Theme.Light ? "darkgray" : "gray" } }} value={description as string} spellCheck={false} disabled={!user} onInput={handleDescriptionInput} />
+                            <Typography className="absolute right-2 bottom-1 text-xs! text-zinc-500 font-mono! select-none" style={{ color: theme === Theme.Light ? "#6b7280" : "#9ca3af" }}>{description?.length ?? 0}/255</Typography>
                         </>
                     )}
                 </Box>

@@ -36,7 +36,7 @@ function ApiKeyTableBody({ data = [], loading = false, reload = () => {} }: ApiK
         mutationFn: ({ token, key }) => deleteApiKey(token, key),
         onSuccess: ({ message }) => {
             setIsError(false);
-            setMessage(message);
+            setMessage(message ?? "Successfully deleted API key");
             setOpenAlert(true);
             reload();
         },
@@ -61,7 +61,7 @@ function ApiKeyTableBody({ data = [], loading = false, reload = () => {} }: ApiK
     };
     const handleDeleteApiKey = (key: string) => {
         getToken({ template: import.meta.env.VITE_CLERK_JWT_TEMPLATE as string }).then(
-            (token) => deleteApiKeyQuery.mutate({ token, key }),
+            (token) => deleteApiKeyQuery.mutate({ token: token as string, key }),
             (_) => {
                 setIsError(true);
                 setMessage("Failed to authenticate. Please try again later");
@@ -75,7 +75,7 @@ function ApiKeyTableBody({ data = [], loading = false, reload = () => {} }: ApiK
     };
     const handleCloseWarningDialog = (agree: boolean) => {
         if (agree) {
-            handleDeleteApiKey(key);
+            handleDeleteApiKey(key as string);
         }
         setOpenWarningDialog(false);
         const timeout = setTimeout(() => setKey(null), 300);

@@ -7,7 +7,8 @@ import { BUTTON_BG_DARK, BUTTON_BG_LIGHT, SHADOW_LIGHT, TEXT_DARK, TEXT_LIGHT } 
 import { ApiKeyFilterContext } from "../../contexts/ApiKeyFilterContext";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import dayjs, { Dayjs } from "dayjs";
+import dayjs from "dayjs";
+import type { PickerValue } from "@mui/x-date-pickers/internals";
 
 function ApiKeyFilterButton() {
     const themeContext = useContext(ThemeContext);
@@ -26,10 +27,10 @@ function ApiKeyFilterButton() {
     const handleClosePopover = () => {
         setAnchorElement(null);
     };
-    const handleFromDateChange = (value: Dayjs) => {
+    const handleFromDateChange = (value: PickerValue) => {
         setFromDate(value);
     };
-    const handleToDateChange = (value: Dayjs) => {
+    const handleToDateChange = (value: PickerValue) => {
         setToDate(value);
     };
     const handleResetFilterClick = () => {
@@ -45,7 +46,7 @@ function ApiKeyFilterButton() {
                     <Stack className="gap-4" direction={"row"}>
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DatePicker value={fromDate} maxDate={toDate ?? dayjs()} label={"From"} slotProps={{ textField: { size: "small" } }} onChange={handleFromDateChange}/>
-                            <DatePicker value={toDate} minDate={fromDate} maxDate={dayjs()} label={"To"} slotProps={{ textField: { size: "small" } }} onChange={handleToDateChange}/>
+                            <DatePicker value={toDate ?? undefined} minDate={fromDate ?? undefined} maxDate={dayjs()} label={"To"} slotProps={{ textField: { size: "small" } }} onChange={handleToDateChange}/>
                         </LocalizationProvider>
                     </Stack>
                     <Box className="place-self-end">

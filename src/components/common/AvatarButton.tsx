@@ -38,7 +38,7 @@ function AvatarButton() {
             {isLoading ? (
                 <Skeleton className={`size-8! ${theme === Theme.Light ? BG_SKELETON_LIGHT : BG_SKELETON_DARK}`} variant={"circular"}/>
             ) : (
-                <Avatar className={`size-8! ${!user?.avatar && 'p-1'} cursor-pointer ${theme === Theme.Light ? `${TEXT_LIGHT} ${user && AVATAR_OUTLINE} opacity-70` : TEXT_DARK}`} src={user?.avatar} sx={{ bgcolor: user ? "deepskyblue" : "transparent" }} slotProps={{ img: { draggable: false } }} onClick={handleOpenPopover}>{user?.name.trim().charAt(0)}</Avatar>
+                <Avatar className={`size-8! ${!user?.avatar && 'p-1'} cursor-pointer ${theme === Theme.Light ? `${TEXT_LIGHT} ${user && AVATAR_OUTLINE} opacity-70` : TEXT_DARK}`} src={user?.avatar ?? undefined} sx={{ bgcolor: user ? "deepskyblue" : "transparent" }} slotProps={{ img: { draggable: false } }} onClick={handleOpenPopover}>{user?.name.trim().charAt(0)}</Avatar>
             )}
             <Popover className={`top-3! drop-shadow-lg ${theme === Theme.Light ? DROP_SHADOW_LIGHT : DROP_SHADOW_DARK}`} open={Boolean(anchorElement) && Boolean(user)} anchorEl={anchorElement} anchorOrigin={{ vertical: "bottom", horizontal: "left" }} onClose={handleClosePopover}>
                 <List className="text-sm">

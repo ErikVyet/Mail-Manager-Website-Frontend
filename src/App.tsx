@@ -57,7 +57,7 @@ function App() {
     useEffect(() => {
         if (isSignedIn && isLoaded) {
             const timeout = setTimeout(() => getToken({ template: import.meta.env.VITE_CLERK_JWT_TEMPLATE as string }).then(
-                (token) => readUserQuery.mutate(token),
+                (token) => readUserQuery.mutate(token as string),
                 (_) => {
                     setIsError(true);
                     setMessage("Failed to authenticate. Please try again later");
