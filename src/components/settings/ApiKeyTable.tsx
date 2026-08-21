@@ -1,6 +1,6 @@
 import { Add } from "@mui/icons-material";
 import { Alert, Box, Button, CircularProgress, Snackbar, Stack, Toolbar, Typography } from "@mui/material";
-import { useContext, useEffect, useMemo, useState, type MouseEvent } from "react";
+import { useContext, useEffect, useState, type MouseEvent } from "react";
 import { ThemeContext } from "../../contexts/ThemeContext";
 import { Theme } from "../../enums/Theme";
 import { BG_DARK_SECONDARY, BG_INPUT_DARK, BG_INPUT_LIGHT, BG_LIGHT_SECONDARY, SHADOW_DARK, SHADOW_LIGHT, TEXT_DARK, TEXT_LIGHT } from "../../constants/style";
@@ -25,6 +25,7 @@ function ApiKeyTable() {
 
     const { getToken } = useAuth();
 
+    const [apiKeys, setApiKeys] = useState<Api[]>([]);
     const [fromDate, setFromDate] = useState<Dayjs | null>(null);
     const [toDate, setToDate] = useState<Dayjs | null>(null);
     const [isError, setIsError] = useState(false);
@@ -33,8 +34,8 @@ function ApiKeyTable() {
 
     const readApiKeysQuery = useMutation<ResponseEntity<Api[]>, AxiosError<ResponseEntity<any>>, string>({
         mutationFn: (token) => fetchApiKeys(token, fromDate, toDate),
-        onSuccess: () => {
-            setIsError(false);
+        onSuccess: ({ data }) => {
+            setApiKeys(data ?? []);
         },
         onError: ({ response }) => {
             setIsError(true);
@@ -46,10 +47,11 @@ function ApiKeyTable() {
     });
     const createApiKeyQuery = useMutation<ResponseEntity<Api>, AxiosError<ResponseEntity<any>>, string>({
         mutationFn: (token) => createApiKey(token),
-        onSuccess: ({ message }) => {
+        onSuccess: ({ data, message }) => {
             setIsError(false);
             setMessage(message as string);
             setOpenAlert(true);
+            setApiKeys((prev) => [...prev, data as Api]);
         },
         onError: ({ response }) => {
             setIsError(true);
@@ -58,17 +60,6 @@ function ApiKeyTable() {
         },
         retry: false
     });
-
-    const apiKeys: Api[] = useMemo(() => {
-        let keys: Api[] = [];
-        if (readApiKeysQuery.isSuccess && readApiKeysQuery.data.data) {
-            keys.push(...readApiKeysQuery.data.data);
-        }
-        if (createApiKeyQuery.isSuccess && createApiKeyQuery.data.data) {
-            keys.push(createApiKeyQuery.data.data);
-        }
-        return keys;
-    }, [readApiKeysQuery.data, createApiKeyQuery.data]);
 
     useEffect(() => {
         getToken({ template: import.meta.env.VITE_CLERK_JWT_TEMPLATE as string }).then(

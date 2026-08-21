@@ -93,11 +93,14 @@ function ApiKeyTableBody({ data = [], loading = false, reload = () => {} }: ApiK
                         <Box className="flex-[10%] grow-0 shrink-0 place-content-center">
                             <Skeleton className={`${theme === Theme.Light ? BG_SKELETON_LIGHT : BG_SKELETON_DARK}`} width={25}/>
                         </Box>
-                        <Box className="flex-[55%] grow-0 shrink-0 place-content-center">
+                        <Box className="flex-[45%] grow-0 shrink-0 place-content-center">
                             <Skeleton className={`${theme === Theme.Light ? BG_SKELETON_LIGHT : BG_SKELETON_DARK}`} width={350}/>
                         </Box>
                         <Box className="flex-[30%] grow-0 shrink-0 place-content-center">
                             <Skeleton className={`${theme === Theme.Light ? BG_SKELETON_LIGHT : BG_SKELETON_DARK}`} width={175}/>
+                        </Box>
+                        <Box className="flex-[10%] grow-0 shrink-0 place-content-center">
+                            <Skeleton className={`${theme === Theme.Light ? BG_SKELETON_LIGHT : BG_SKELETON_DARK}`} width={40}/>
                         </Box>
                         <Box className="flex-[5%] grow-0 shrink-0 place-content-center place-items-center">
                             <Skeleton className={`${theme === Theme.Light ? BG_SKELETON_LIGHT : BG_SKELETON_DARK} size-4! aspect-square!`} variant={"circular"}/>
@@ -113,7 +116,7 @@ function ApiKeyTableBody({ data = [], loading = false, reload = () => {} }: ApiK
                 data.map((api, index) =>
                     <Stack className="w-full h-fit px-3 py-1.5 items-center justify-center" direction={"row"} key={index}>
                         <Typography className={`flex-[10%] grow-0 shrink-0 text-sm! font-mono! ${theme === Theme.Light ? TEXT_LIGHT : TEXT_DARK} select-none`}>{index + 1}</Typography>
-                        <Stack className={`relative flex-[55%] grow-0 shrink-0 pr-8 truncate items-center justify-between gap-2`} direction={"row"}>
+                        <Stack className={`relative flex-[45%] grow-0 shrink-0 pr-8 truncate items-center justify-between gap-2`} direction={"row"}>
                             <Typography className={`truncate text-sm! font-mono! ${theme === Theme.Light ? TEXT_LIGHT : TEXT_DARK} select-none`}>{api.key}</Typography>
                             <Tooltip title={"Copy this key"}>
                                 <IconButton size={"small"} onClick={() => handleCopyApiKey(api.key)}>
@@ -122,6 +125,7 @@ function ApiKeyTableBody({ data = [], loading = false, reload = () => {} }: ApiK
                             </Tooltip>
                         </Stack>
                         <Typography className={`flex-[30%] grow-0 shrink-0 text-sm! font-mono! ${theme === Theme.Light ? TEXT_LIGHT : TEXT_DARK} select-none`}>{dayjs(api.createdAt).format("YYYY/MM/DD HH:mm:ss")}</Typography>
+                        <Typography className={`flex-[10%] grow-0 shrink-0 text-sm! font-mono! ${theme === Theme.Light ? TEXT_LIGHT : TEXT_DARK} select-none`}>{api.callCounts}</Typography>
                         <Box className="flex-[5%] grow-0 shrink-0 place-content-center place-items-center">
                             <Tooltip title={"Delete this key"}>
                                 <IconButton className={`${theme === Theme.Light ? HOVER_BG_LIGHT : HOVER_BG_DARK}`} color={"inherit"} size={"small"} onClick={() => handleOpenWarningDialog(api.key)}>

@@ -1,3 +1,4 @@
+import type { UserRole } from "../enums/UserRole";
 import type { UserStatus } from "../enums/UserStatus";
 import { Dayjs } from "dayjs";
 
@@ -8,5 +9,6 @@ export interface User {
     avatar: string | null,
     description: string | null,
     status: UserStatus,
+    role: UserRole,
     createdAt: Dayjs
 }
