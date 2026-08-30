@@ -3,6 +3,7 @@ export const BG_DARK_PRIMARY = "bg-zinc-900!";
 export const BG_DARK_SECONDARY = "bg-[#111113]!";
 export const BG_LIGHT_PRIMARY = "bg-neutral-200!";
 export const BG_LIGHT_SECONDARY = "bg-zinc-100!";
+export const BG_MUTUAL = "bg-blue-500!";
 
 export const BG_SKELETON_LIGHT = "bg-zinc-300!";
 export const BG_SKELETON_DARK = "bg-zinc-700!";
@@ -21,6 +22,7 @@ export const BORDER_LIGHT = "border-zinc-300!";
 
 export const TEXT_LIGHT = "text-zinc-700!";
 export const TEXT_DARK = "text-zinc-300!";
+export const TEXT_MUTUAL = "text-blue-500!";
 
 export const INPUT_LABEL_LIGHT = "text-zinc-500!";
 export const INPUT_LABEL_DARK = "text-zinc-400!";

@@ -1,5 +1,5 @@
 import { Box, Stack } from "@mui/material";
-import SettingSidebar from "../components/settings/SettingSidebar";
+import SettingSidebar from "../../components/settings/SettingSidebar";
 import { Outlet } from "react-router-dom";
 
 function Settings() {
