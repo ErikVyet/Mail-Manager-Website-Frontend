@@ -1,13 +1,13 @@
 import { Box, Popover, Stack, Typography } from "@mui/material";
 import { useContext, useState, type MouseEvent } from "react";
 import type { JSX } from "react/jsx-runtime";
-import { ThemeContext } from "../../contexts/ThemeContext";
-import { Theme } from "../../enums/Theme";
-import { DROP_SHADOW_DARK, DROP_SHADOW_LIGHT, TEXT_DARK, TEXT_LIGHT } from "../../constants/style";
+import { ThemeContext } from "../../../contexts/ThemeContext";
+import { Theme } from "../../../enums/Theme";
+import { DROP_SHADOW_DARK, DROP_SHADOW_LIGHT, TEXT_DARK, TEXT_LIGHT } from "../../../constants/style";
 import { useNavigate } from "react-router-dom";
 import { motion } from "motion/react";
 import { ExpandLess } from "@mui/icons-material";
-import { ANIMATION_DURATION } from "../../constants/other";
+import { ANIMATION_DURATION } from "../../../constants/other";
 
 type NavbarLinkProps = {
     label: string,

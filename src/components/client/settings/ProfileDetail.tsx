@@ -1,17 +1,18 @@
 import { Alert, Avatar, Box, Button, Skeleton, Snackbar, Stack, Typography } from "@mui/material";
 import { useContext, useEffect, useState, type InputEvent, type MouseEvent } from "react";
-import { UserContext } from "../../contexts/UserContext";
-import { ThemeContext } from "../../contexts/ThemeContext";
-import { AVATAR_OUTLINE, BG_INPUT_DARK, BG_INPUT_LIGHT, BG_SKELETON_DARK, BG_SKELETON_LIGHT, SHADOW_DARK, SHADOW_LIGHT, TEXT_DARK, TEXT_LIGHT } from "../../constants/style";
-import { Theme } from "../../enums/Theme";
 import { WarningAmberOutlined } from "@mui/icons-material";
 import { useMutation } from "@tanstack/react-query";
-import type { ResponseEntity } from "../../interfaces/ResponseEntity";
-import type { User } from "../../interfaces/User";
 import type { AxiosError } from "axios";
-import { updateUser } from "../../functions/user/updateUser";
 import { useAuth } from "@clerk/react";
-import { ALERT_DURATION } from "../../constants/other";
+import { ThemeContext } from "../../../contexts/ThemeContext";
+import { UserContext } from "../../../contexts/UserContext";
+import { useCurrentUser } from "../../../hooks/useCurrentUser";
+import type { ResponseEntity } from "../../../interfaces/ResponseEntity";
+import type { User } from "../../../interfaces/User";
+import { updateUser } from "../../../functions/user/updateUser";
+import { Theme } from "../../../enums/Theme";
+import { ALERT_DURATION } from "../../../constants/other";
+import { BG_SKELETON_LIGHT, BG_SKELETON_DARK, AVATAR_OUTLINE, SHADOW_LIGHT, SHADOW_DARK, TEXT_LIGHT, TEXT_DARK, BG_INPUT_LIGHT, BG_INPUT_DARK } from "../../../constants/style";
 
 function ProfileDetail() {
     const themeContext = useContext(ThemeContext);
@@ -20,7 +21,9 @@ function ProfileDetail() {
 
     const userContext = useContext(UserContext);
     if (!userContext) return null;
-    const { isLoading, user, setUser } = userContext;
+    const { setUser } = userContext;
+
+    const { user, isLoading } = useCurrentUser();
 
     const { getToken } = useAuth();
 
@@ -33,15 +36,11 @@ function ProfileDetail() {
     const updateUserQuery = useMutation<ResponseEntity<User>, AxiosError<ResponseEntity<any>>, { user: User, token: string }>({
         mutationFn: ({ user, token }) => updateUser(user, token),
         onSuccess: ({ data, message }) => {
-            setIsError(false);
-            setMessage(message ?? "Successfully updated profile");
-            setOpenQueryAlert(true);
+            handleOpenQueryAlert(false, message ?? "Successfully updated profile");
             setUser(data);
         },
         onError: ({ response }) => {
-            setIsError(true);
-            setMessage(response?.data?.message ?? "Server is temporarily down. Try again later");
-            setOpenQueryAlert(true);
+            handleOpenQueryAlert(true, response?.data?.message ?? "Server is temporarily down. Try again later");
         },
         retry: false
     });
@@ -74,6 +73,11 @@ function ProfileDetail() {
     };
     const handleUndoClick = () => {
         setDescription(user?.description ?? "");
+    };
+    const handleOpenQueryAlert = (error: boolean, message: string) => {
+        setIsError(error);
+        setMessage(message);
+        setOpenQueryAlert(true);
     };
     const handleCloseQueryAlert = () => {
         setOpenQueryAlert(false);

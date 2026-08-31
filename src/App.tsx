@@ -1,8 +1,6 @@
 import { Alert, Snackbar } from '@mui/material';
 import { useEffect, useState, type MouseEvent } from 'react';
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom';
-import ProfileView from './components/settings/ProfileView';
-import ThemeView from "./components/settings/ThemeView";
 import { ALERT_DURATION } from './constants/other';
 import { ThemeContext } from './contexts/ThemeContext';
 import { UserContext } from './contexts/UserContext';
@@ -12,9 +10,13 @@ import type { User } from './interfaces/User';
 import MainLayout from './layouts/MainLayout';
 import Home from './pages/client/Home';
 import Settings from './pages/client/Settings';
-import SignatureView from './components/settings/SignatureView';
-import ApiView from './components/settings/ApiView';
-import Login from './pages/admin/Login';
+import AdminLogin from './pages/admin/AdminLogin';
+import AdminLayout from './layouts/AdminLayout';
+import Dashboard from './pages/admin/Dashboard';
+import ProfileView from './components/client/settings/ProfileView';
+import ThemeView from './components/client/settings/ThemeView';
+import ApiView from './components/client/settings/ApiView';
+import SignatureView from './components/client/settings/SignatureView';
 
 function App() {
     const [user, setUser] = useState<User | null>(null);
@@ -34,14 +36,10 @@ function App() {
 
     useEffect(() => {
         if (networkStatus && document.readyState === "complete") {
-            setIsError(false);
-            setMessage("You are back online");
-            setOpenAlert(true);
+            handleOpenAlert(false, "You are back online");
         }
         else if (!networkStatus && document.readyState === "complete") {
-            setIsError(true);
-            setMessage("You are currently offline");
-            setOpenAlert(true);
+            handleOpenAlert(true, "You are currently offline");
         }
     }, [networkStatus]);
 
@@ -57,11 +55,20 @@ function App() {
                         <Route path={"configure/secret-key"} element={<SignatureView/>}/>
                     </Route>
                 </Route>
-                <Route path={"/admin/login"} element={<Login/>}/>
+                <Route path={"/admin/login"} element={<AdminLogin/>}/>
+                <Route element={<AdminLayout/>}>
+                    <Route index path={"/admin/dashboard"} element={<Dashboard/>}/>
+                    
+                </Route>
             </Route>
         )
     );
 
+    const handleOpenAlert = (error: boolean, message: string) => {
+        setIsError(error);
+        setMessage(message);
+        setOpenAlert(true);
+    };
     const handleCloseAlert = () => {
         setOpenAlert(false);
     };

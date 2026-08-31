@@ -19,7 +19,7 @@ function MailButton() {
 
     return (
         <Tooltip title={"Inbox"}>
-            <IconButton className={`relative ${theme === Theme.Light ? HOVER_BG_LIGHT : HOVER_BG_DARK}`} color={"inherit"} onClick={handleMailClick}>
+            <IconButton className={`${theme === Theme.Light ? HOVER_BG_LIGHT : HOVER_BG_DARK}`} color={"inherit"} onClick={handleMailClick}>
                 <Badge overlap={"circular"} color={"error"} badgeContent={100} max={9} anchorOrigin={{ vertical: "bottom", horizontal: "right" }} slotProps={{ badge: { sx: { fontSize: 9.5, scale: 0.9, padding: 0 } } }}>
                     <MailOutlined className={`size-5! ${theme === Theme.Light ? TEXT_LIGHT : TEXT_DARK}`}/>
                 </Badge>

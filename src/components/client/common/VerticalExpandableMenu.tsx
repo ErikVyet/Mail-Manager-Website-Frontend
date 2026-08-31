@@ -1,11 +1,11 @@
 import { Box, Button, Collapse, Divider, List, ListItem, ListItemButton, Stack, Typography } from "@mui/material";
-import { Theme } from "../../enums/Theme";
+import { Theme } from "../../../enums/Theme";
 import { useContext, useState } from "react";
-import { ThemeContext } from "../../contexts/ThemeContext";
+import { ThemeContext } from "../../../contexts/ThemeContext";
 import { ExpandMore } from "@mui/icons-material";
-import { HOVER_BG_DARK, HOVER_BG_LIGHT, TEXT_DARK, TEXT_LIGHT } from "../../constants/style";
+import { HOVER_BG_DARK, HOVER_BG_LIGHT, TEXT_DARK, TEXT_LIGHT } from "../../../constants/style";
 import { motion } from "framer-motion";
-import { ANIMATION_DURATION } from "../../constants/other";
+import { ANIMATION_DURATION } from "../../../constants/other";
 import { useNavigate } from "react-router-dom";
 
 type VerticalExpandableMenuProps = {

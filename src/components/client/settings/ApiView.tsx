@@ -1,6 +1,6 @@
 import { Box, Stack } from "@mui/material";
-import Input from "../common/Input";
 import ApiKeyTable from "./ApiKeyTable";
+import Input from "../../common/Input";
 
 function ApiView() {
     return (

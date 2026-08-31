@@ -3,19 +3,14 @@ import { ActivityCalendar, type Activity, type BlockElement, type ThemeInput } f
 import ProfileDetail from "./ProfileDetail";
 import dayjs from "dayjs";
 import { useContext, useMemo, type ReactElement } from "react";
-import { ThemeContext } from "../../contexts/ThemeContext";
-import { Theme } from "../../enums/Theme";
-import { TEXT_DARK, TEXT_LIGHT } from "../../constants/style";
-import { UserContext } from "../../contexts/UserContext";
+import { ThemeContext } from "../../../contexts/ThemeContext";
+import { Theme } from "../../../enums/Theme";
+import { TEXT_LIGHT, TEXT_DARK } from "../../../constants/style";
 
 function ProfileView() {
     const themeContext = useContext(ThemeContext);
     if (!themeContext) return null;
     const { theme } = themeContext;
-
-    const userContext = useContext(UserContext);
-    if (!userContext) return null;
-    const { isLoading } = userContext;
 
     const explicitTheme: ThemeInput = {
         light: ['#f0f0f0', '#c4edde', '#7ac7c4', '#f73859', '#384259'],
@@ -40,7 +35,7 @@ function ProfileView() {
     return (
         <Box className="w-full p-8 place-content-center place-items-center">
             <ProfileDetail/>
-            <ActivityCalendar className={`w-212.5! pt-12 font-mono ${theme === Theme.Light ? TEXT_LIGHT : TEXT_DARK}`} data={data} theme={explicitTheme} colorScheme={theme === Theme.Light ? "light" : "dark"} renderBlock={renderActivityBlock} loading={isLoading} showWeekdayLabels/>
+            <ActivityCalendar className={`w-212.5! pt-12 font-mono ${theme === Theme.Light ? TEXT_LIGHT : TEXT_DARK}`} data={data} theme={explicitTheme} colorScheme={theme === Theme.Light ? "light" : "dark"} renderBlock={renderActivityBlock} loading={false} showWeekdayLabels/>
         </Box>
     );
 }

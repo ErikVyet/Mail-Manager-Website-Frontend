@@ -3,7 +3,7 @@ import type { User } from "../../interfaces/User";
 import type { ResponseEntity } from "../../interfaces/ResponseEntity";
 
 export async function fetchUser(token: string): Promise<ResponseEntity<User>> {
-    const { data } = await axios.get(`${import.meta.env.VITE_BACKEND_API as string}/user/get-info`, {
+    const { data } = await axios.get(`${import.meta.env.VITE_BACKEND_API as string}/user/info`, {
         headers: {
             "Content-Type": "application/json",
             "Authorization": `Bearer ${token}`,

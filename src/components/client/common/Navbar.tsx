@@ -1,15 +1,15 @@
 import { AppBar, Button, Divider, Skeleton, Stack } from "@mui/material";
 import { useContext } from "react";
-import { ThemeContext } from "../../contexts/ThemeContext";
-import { Theme } from "../../enums/Theme";
-import { BG_DARK_SECONDARY, BG_LIGHT_SECONDARY, BG_SKELETON_DARK, BG_SKELETON_LIGHT, BORDER_DARK, BORDER_LIGHT, HOVER_BG_DARK, HOVER_BG_LIGHT, TEXT_DARK, TEXT_LIGHT } from "../../constants/style";
-import Banner from "./Banner";
+import { ThemeContext } from "../../../contexts/ThemeContext";
+import { Theme } from "../../../enums/Theme";
+import { BG_DARK_SECONDARY, BG_LIGHT_SECONDARY, BG_SKELETON_DARK, BG_SKELETON_LIGHT, BORDER_DARK, BORDER_LIGHT, HOVER_BG_DARK, HOVER_BG_LIGHT, TEXT_DARK, TEXT_LIGHT } from "../../../constants/style";
+import Banner from "../../common/Banner";
 import NavbarLink from "./NavbarLink";
 import { SignInButton, SignUpButton, useUser } from "@clerk/react";
-import ThemeToggleButton from "./ThemeToggleButton";
-import AvatarButton from "./AvatarButton";
-import MailButton from "./MailButton";
-import SocialPopover from "./SocialPopover";
+import ThemeToggleButton from "../../common/ThemeToggleButton";
+import AvatarButton from "../../common/AvatarButton";
+import MailButton from "../../common/MailButton";
+import SocialPopover from "../../common/SocialPopover";
 import NavbarLinkGroup from "./NavbarLinkGroup";
 
 function Navbar() {

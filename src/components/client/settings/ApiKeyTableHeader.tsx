@@ -1,8 +1,8 @@
 import { Stack, Typography } from "@mui/material";
 import { useContext } from "react";
-import { ThemeContext } from "../../contexts/ThemeContext";
-import { Theme } from "../../enums/Theme";
-import { TEXT_DARK, TEXT_LIGHT } from "../../constants/style";
+import { ThemeContext } from "../../../contexts/ThemeContext";
+import { Theme } from "../../../enums/Theme";
+import { TEXT_DARK, TEXT_LIGHT } from "../../../constants/style";
 
 function ApiKeyTableHeader() {
     const themeContext = useContext(ThemeContext);

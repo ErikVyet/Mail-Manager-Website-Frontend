@@ -6,16 +6,18 @@ import { SignOutButton } from "@clerk/react";
 import { useNavigate } from "react-router-dom";
 import { ThemeContext } from "../../contexts/ThemeContext";
 import { Theme } from "../../enums/Theme";
-import { UserContext } from "../../contexts/UserContext";
+import { useCurrentUser } from "../../hooks/useCurrentUser";
 
-function AvatarButton() {
+type AvatarButtonProps = {
+    disableSettingOption?: boolean
+}
+
+function AvatarButton({ disableSettingOption = false }: AvatarButtonProps) {
     const themeContext = useContext(ThemeContext);
     if (!themeContext) return null;
     const { theme } = themeContext;
 
-    const userContext = useContext(UserContext);
-    if (!userContext) return null;
-    const { isLoading, user } = userContext;
+    const { user, isLoading } = useCurrentUser();
 
     const navigate = useNavigate();
 
@@ -42,10 +44,12 @@ function AvatarButton() {
             )}
             <Popover className={`top-3! drop-shadow-lg ${theme === Theme.Light ? DROP_SHADOW_LIGHT : DROP_SHADOW_DARK}`} open={Boolean(anchorElement) && Boolean(user)} anchorEl={anchorElement} anchorOrigin={{ vertical: "bottom", horizontal: "left" }} onClose={handleClosePopover}>
                 <List className="text-sm">
-                    <ListItemButton className={`gap-2 ${HOVER_BG_LIGHT}`} disableRipple onClick={handleSettingClick}>
-                        <SettingsOutlined className={`size-5! ${TEXT_LIGHT}`}/>
-                        Settings
-                    </ListItemButton>
+                    {!disableSettingOption && (
+                        <ListItemButton className={`gap-2 ${HOVER_BG_LIGHT}`} disableRipple onClick={handleSettingClick}>
+                            <SettingsOutlined className={`size-5! ${TEXT_LIGHT}`}/>
+                            Settings
+                        </ListItemButton>
+                    )}
                     <ListItemButton className={`gap-2 ${HOVER_BG_LIGHT}`} disableRipple>
                         <LogoutOutlined className={`size-5! ${TEXT_LIGHT}`}/>
                         <SignOutButton/>

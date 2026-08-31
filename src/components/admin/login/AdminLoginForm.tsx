@@ -1,21 +1,23 @@
 import { Alert, Box, Button, FormGroup, Snackbar, Stack, Tooltip, Typography } from "@mui/material";
 import { useContext, useEffect, useState, type ChangeEvent, type SubmitEvent } from "react";
-import { ThemeContext } from "../../contexts/ThemeContext";
-import { Theme } from "../../enums/Theme";
-import { BG_DARK_PRIMARY, BG_LIGHT_PRIMARY, BG_MUTUAL, SHADOW_DARK, SHADOW_LIGHT, TEXT_DARK, TEXT_LIGHT, TEXT_MUTUAL } from "../../constants/style";
+import { ThemeContext } from "../../../contexts/ThemeContext";
+import { Theme } from "../../../enums/Theme";
+import { BG_DARK_PRIMARY, BG_LIGHT_PRIMARY, BG_MUTUAL, SHADOW_DARK, SHADOW_LIGHT, TEXT_DARK, TEXT_LIGHT } from "../../../constants/style";
 import { Form, Link, useNavigate } from "react-router-dom";
-import Input from "../common/Input";
+import Input from "../../common/Input";
 import { useAuth, useClerk, useSignIn } from "@clerk/react";
-import { ALERT_DURATION } from "../../constants/other";
+import { ALERT_DURATION } from "../../../constants/other";
 import { HelpOutlineOutlined } from "@mui/icons-material";
-import { emailRegex, passwordRegex } from "../../validators/loginFieldRegexes";
+import { emailRegex, passwordRegex } from "../../../validators/loginFieldRegexes";
 import { useMutation } from "@tanstack/react-query";
-import type { ResponseEntity } from "../../interfaces/ResponseEntity";
-import type { User } from "../../interfaces/User";
+import type { ResponseEntity } from "../../../interfaces/ResponseEntity";
+import type { User } from "../../../interfaces/User";
 import type { AxiosError } from "axios";
-import { fetchAdmin } from "../../functions/user/fetchAdmin";
-import { UserContext } from "../../contexts/UserContext";
-import { UserRole } from "../../enums/UserRole";
+import { UserContext } from "../../../contexts/UserContext";
+import { useCurrentUser } from "../../../hooks/useCurrentUser";
+import { fetchUser } from "../../../functions/user/fetchUser";
+import { UserRole } from "../../../enums/UserRole";
+import Banner from "../common/Banner";
 
 function LoginForm() {
     const themeContext = useContext(ThemeContext);
@@ -24,7 +26,9 @@ function LoginForm() {
 
     const userContext = useContext(UserContext);
     if (!userContext) return null;
-    const { user, setUser } = userContext;
+    const { setUser } = userContext;
+
+    const { user, isLoading, caughtError } = useCurrentUser();
 
     const { signIn, fetchStatus, errors } = useSignIn();
 
@@ -44,9 +48,10 @@ function LoginForm() {
     const [isVerifying, setIsVerifying] = useState(false);
 
     const readAdminQuery = useMutation<ResponseEntity<User>, AxiosError<ResponseEntity<null>>, string>({
-        mutationFn: (token) => fetchAdmin(token),
+        mutationFn: (token) => fetchUser(token),
         onSuccess: ({ data }) => {
             setUser(data);
+            handleOpenAlert(false, "Successfully signed in. You will be redirected shortly");
             const timeout = setTimeout(() => navigate("/admin/dashboard"), 3000);
             return () => { clearTimeout(timeout); }
         },
@@ -59,22 +64,33 @@ function LoginForm() {
     });
 
     useEffect(() => {
-        if (user) {
-            if (user.role === UserRole.Administrator) {
-                navigate("/admin/dashboard");
-            }
-            else if (user.role === UserRole.Viewer) {
-                handleOpenAlert(true, "Unauthorized");
-                const timeout = setTimeout(() => navigate("/viewer/home"), 3000);
-                return () => { clearTimeout(timeout); }
-            }
-            else {
-                handleOpenAlert(true, "Unauthorized");
-                const timeout = setTimeout(() => navigate("/"), 3000);
-                return () => { clearTimeout(timeout); }
+        if (!isLoading && user) {
+            const currentUserRole = UserRole[user.role.toString() as keyof typeof UserRole];
+            switch (currentUserRole) {
+                case (UserRole.Administrator): {
+                    navigate("/admin/dashboard");
+                    break;
+                }
+                case (UserRole.Viewer): {
+                    handleOpenAlert(true, "Unauthorized");
+                    const timeout = setTimeout(() => navigate("/view/dashboard"), 3000);
+                    return () => { clearTimeout(timeout); }
+                }
+                default: {
+                    handleOpenAlert(true, "Unauthorized");
+                    const timeout = setTimeout(() => navigate("/"), 3000);
+                    return () => { clearTimeout(timeout); }
+                    break;
+                }
             }
         }
-    }, [user]);
+    }, [user, isLoading]);
+
+    useEffect(() => {
+        if (!isLoading && caughtError) {
+            handleOpenAlert(true, "Something went wrong. Please try again later");
+        }
+    }, [caughtError]);
 
     const handleOpenAlert = (error: boolean, message: string) => {
         setIsError(error);
@@ -118,7 +134,7 @@ function LoginForm() {
 
                     if (signIn.status === "complete") {
                         signIn.finalize().then(() => {
-                            getToken({ template: import.meta.env.VITE_CLERK_JWT_ADMIN_TEMPLATE as string }).then(
+                            getToken({ template: import.meta.env.VITE_CLERK_JWT_TEMPLATE as string }).then(
                                 (token) => readAdminQuery.mutate(token as string),
                                 (_) => handleOpenAlert(true, "Failed to authenticate. Please try again later")
                             );
@@ -139,7 +155,7 @@ function LoginForm() {
                     switch (signIn.status) {
                         case ("complete"): {
                             signIn.finalize().then(() => {
-                                getToken({ template: import.meta.env.VITE_CLERK_JWT_ADMIN_TEMPLATE as string }).then(
+                                getToken({ template: import.meta.env.VITE_CLERK_JWT_TEMPLATE as string }).then(
                                     (token) => readAdminQuery.mutate(token as string),
                                     (_) => handleOpenAlert(true, "Failed to authenticate. Please try again later")
                                 );
@@ -165,10 +181,7 @@ function LoginForm() {
 
     return (
         <Stack className={`relative w-sm gap-6 select-none`}>
-            <Stack className="justify-center items-center" direction={"row"}>
-                <Typography className={`font-sans! font-semibold! ${theme === Theme.Light ? TEXT_LIGHT : TEXT_DARK}`} variant={"h5"}>Admin</Typography>
-                <Typography className={`font-sans! font-semibold! ${TEXT_MUTUAL}`} variant={"h5"}>Panel</Typography>
-            </Stack>
+            <Banner/>
             <Form className={`relative px-8 py-2 size-full shadow-xl ${theme === Theme.Light ? `${SHADOW_LIGHT}` : `${SHADOW_DARK}`} rounded-xl place-items-center`} onSubmit={handleSignInFormSubmission}>
                 <Box className={`absolute size-full rounded-xl ${theme === Theme.Light ? BG_LIGHT_PRIMARY : BG_DARK_PRIMARY} opacity-95`}/>
                 <Typography className={`relative pt-4 pb-8 font-sans! font-semibold! ${theme === Theme.Light ? TEXT_LIGHT : TEXT_DARK}`} variant={"h5"}>Sign In</Typography>

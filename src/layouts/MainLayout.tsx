@@ -1,31 +1,19 @@
 import { Alert, Container, Snackbar } from '@mui/material';
 import { Outlet, ScrollRestoration, useNavigate } from 'react-router-dom';
-import Navbar from '../components/common/Navbar';
+import Navbar from '../components/client/common/Navbar';
 import { useContext, useEffect, useState, type MouseEvent } from 'react';
 import { ThemeContext } from '../contexts/ThemeContext';
 import { Theme } from '../enums/Theme';
 import { BG_DARK_PRIMARY, BG_LIGHT_PRIMARY } from '../constants/style';
-import { useAuth, useUser } from '@clerk/react';
-import { UserContext } from '../contexts/UserContext';
-import { useMutation } from '@tanstack/react-query';
-import type { ResponseEntity } from '../interfaces/ResponseEntity';
-import type { User } from '../interfaces/User';
-import type { AxiosError } from 'axios';
-import { fetchUser } from '../functions/user/fetchUser';
 import { ALERT_DURATION } from '../constants/other';
+import { useCurrentUser } from '../hooks/useCurrentUser';
 
 function MainLayout() {
     const themeContext = useContext(ThemeContext);
     if (!themeContext) return null;
     const { theme } = themeContext;
 
-    const userContext = useContext(UserContext);
-    if (!userContext) return null;
-    const { user, setUser, isLoading, setIsLoading } = userContext;
-
-    const { getToken } = useAuth();
-
-    const { isSignedIn, isLoaded } = useUser();
+    const { user, isLoading, caughtError } = useCurrentUser();
 
     const navigate = useNavigate();
 
@@ -33,52 +21,23 @@ function MainLayout() {
     const [message, setMessage] = useState<string | null>(null);
     const [openAlert, setOpenAlert] = useState(false);
 
-    const readUserQuery = useMutation<ResponseEntity<User>, AxiosError<ResponseEntity<null>>, string>({
-        mutationFn: (token) => fetchUser(token),
-        onSuccess: ({ data }) => {
-            setIsError(false);
-            setMessage("Successfully signed in");
-            setOpenAlert(true);
-            setUser(data);
-        },
-        onError: ({ response }) => {
-            setIsError(true);
-            setMessage(response?.data?.message ?? "An error has occured");
-            setOpenAlert(true);
-        },
-        retry: false
-    });
-
-    useEffect(() => {
-        setIsLoading(readUserQuery.isPending);
-    }, [readUserQuery.isPending]);
-
-    useEffect(() => {
-        if (isSignedIn && isLoaded) {
-            const timeout = setTimeout(() => getToken({ template: import.meta.env.VITE_CLERK_JWT_TEMPLATE as string }).then(
-                (token) => readUserQuery.mutate(token as string),
-                (_) => {
-                    setIsError(true);
-                    setMessage("Failed to authenticate. Please try again later");
-                    setOpenAlert(true);
-                }
-            ), 500);
-            return () => { clearTimeout(timeout); }
-        }
-        else {
-            setUser(null);
-        }
-    }, [isSignedIn]);
-
     useEffect(() => {
         if (!user && !isLoading) {
-            const timeout = setTimeout(() => {
-                navigate("/");
-            }, 2000);
-            return () => { clearTimeout(timeout); }
+            navigate("/");
         }
-    }, [user]);
+    }, [user, isLoading]);
 
+    useEffect(() => {
+        if (!isLoading && caughtError) {
+            handleOpenAlert(true, "Something went wrong. Please try again later");
+        }
+    }, [caughtError]);
+
+    const handleOpenAlert = (error: boolean, message: string) => {
+        setIsError(error);
+        setMessage(message);
+        setOpenAlert(true);
+    };
     const handleCloseAlert = () => {
         setOpenAlert(false);
     };

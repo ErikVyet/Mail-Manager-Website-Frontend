@@ -1,8 +1,8 @@
 import { Box, FormControl, InputLabel, MenuItem, Select, type SelectChangeEvent } from "@mui/material";
-import { Theme } from "../../enums/Theme";
 import { useContext } from "react";
-import { ThemeContext } from "../../contexts/ThemeContext";
-import { TEXT_DARK, TEXT_LIGHT } from "../../constants/style";
+import { ThemeContext } from "../../../contexts/ThemeContext";
+import { Theme } from "../../../enums/Theme";
+import { TEXT_LIGHT, TEXT_DARK } from "../../../constants/style";
 
 function ThemeView() {
     const themeContext = useContext(ThemeContext);
