@@ -5,12 +5,11 @@ import type { AxiosError } from "axios";
 import { useAuth, useUser } from "@clerk/react";
 import { ThemeContext } from "../../../contexts/ThemeContext";
 import type { ResponseEntity } from "../../../interfaces/ResponseEntity";
-import { fetchSignature } from "../../../functions/setting/fetchSignature";
-import { regenerateSignature } from "../../../functions/setting/regenerateSignature";
 import { Theme } from "../../../enums/Theme";
 import Input from "../../common/Input";
 import { ALERT_DURATION } from "../../../constants/other";
 import { TEXT_LIGHT, BUTTON_BG_LIGHT, SHADOW_LIGHT, TEXT_DARK, BUTTON_BG_DARK, SHADOW_DARK } from "../../../constants/style";
+import { fetchSignature, regenerateSignature } from "../../../functions/setting";
 
 function SignatureView() {
     const themeContext = useContext(ThemeContext);

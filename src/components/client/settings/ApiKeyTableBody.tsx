@@ -8,10 +8,10 @@ import { useAuth } from "@clerk/react";
 import { ALERT_DURATION } from "../../../constants/other";
 import { BG_LIGHT_PRIMARY, BG_DARK_PRIMARY, BORDER_LIGHT, BORDER_DARK, BG_SKELETON_LIGHT, BG_SKELETON_DARK, BG_EMPTY_VIEW_LIGHT, BG_EMPTY_VIEW_DARK, TEXT_LIGHT, TEXT_DARK, HOVER_BG_LIGHT, HOVER_BG_DARK } from "../../../constants/style";
 import { Theme } from "../../../enums/Theme";
-import { deleteApiKey } from "../../../functions/api/deleteApiKey";
 import type { ResponseEntity } from "../../../interfaces/ResponseEntity";
 import { ThemeContext } from "../../../contexts/ThemeContext";
 import type { Api } from "../../../interfaces/Api";
+import { deleteApiKey } from "../../../functions/api";
 
 type ApiKeyTableBodyProps = {
     data: Api[]

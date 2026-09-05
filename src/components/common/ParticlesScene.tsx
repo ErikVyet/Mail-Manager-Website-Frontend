@@ -1,10 +1,10 @@
 import { useContext, useMemo } from "react";
 import { Color, Vector3 } from "three";
 import ParticleMesh from "./ParticleMesh";
-import { generateRandomVector3 } from "../../functions/common/generateRandomVector3";
 import { Edges } from "@react-three/drei";
 import { ThemeContext } from "../../contexts/ThemeContext";
 import { Theme } from "../../enums/Theme";
+import { generateRandomVector3 } from "../../functions/common";
 
 type ParticlesProps = {
     count?: number,

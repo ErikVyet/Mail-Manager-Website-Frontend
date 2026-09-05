@@ -15,9 +15,9 @@ import type { User } from "../../../interfaces/User";
 import type { AxiosError } from "axios";
 import { UserContext } from "../../../contexts/UserContext";
 import { useCurrentUser } from "../../../hooks/useCurrentUser";
-import { fetchUser } from "../../../functions/user/fetchUser";
 import { UserRole } from "../../../enums/UserRole";
 import Banner from "../common/Banner";
+import { fetchUser } from "../../../functions/user";
 
 function LoginForm() {
     const themeContext = useContext(ThemeContext);

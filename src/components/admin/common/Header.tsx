@@ -27,7 +27,7 @@ function Header() {
     }, [isSignedIn]);
 
     return (
-        <AppBar className={`h-16 border-b shadow-none! ${theme === Theme.Light ? `${BG_LIGHT_SECONDARY} ${BORDER_LIGHT}` : `${BG_DARK_SECONDARY} ${BORDER_DARK}`}`} position={"absolute"}>
+        <AppBar className={`h-16 border-b shadow-none! ${theme === Theme.Light ? `${BG_LIGHT_SECONDARY} ${BORDER_LIGHT}` : `${BG_DARK_SECONDARY} ${BORDER_DARK}`}`} position={"sticky"} draggable={false}>
             <Stack className="h-full px-6 justify-between items-center" direction={"row"}>
                 <Searchbar/>
                 <Stack className="h-full justify-center items-center gap-6" direction={"row"}>
@@ -51,7 +51,7 @@ function Header() {
                         ) : (
                             <>
                                 <AvatarButton disableSettingOption/>
-                                <Typography className={`font-sans! ${theme === Theme.Light ? TEXT_LIGHT : TEXT_DARK}`} variant="subtitle2">{user?.name}</Typography>
+                                <Typography className={`font-sans! line-clamp-1 ${theme === Theme.Light ? TEXT_LIGHT : TEXT_DARK} select-none`} variant="subtitle2">{user?.name}</Typography>
                             </>
                         )}
                     </Stack>

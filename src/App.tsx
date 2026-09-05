@@ -17,6 +17,7 @@ import ProfileView from './components/client/settings/ProfileView';
 import ThemeView from './components/client/settings/ThemeView';
 import ApiView from './components/client/settings/ApiView';
 import SignatureView from './components/client/settings/SignatureView';
+import PlanManagement from './pages/admin/PlanManagement';
 
 function App() {
     const [user, setUser] = useState<User | null>(null);
@@ -58,7 +59,7 @@ function App() {
                 <Route path={"/admin/login"} element={<AdminLogin/>}/>
                 <Route element={<AdminLayout/>}>
                     <Route index path={"/admin/dashboard"} element={<Dashboard/>}/>
-                    
+                    <Route path={"/admin/plan"} element={<PlanManagement/>}/>
                 </Route>
             </Route>
         )

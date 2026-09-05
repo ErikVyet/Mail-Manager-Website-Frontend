@@ -31,14 +31,18 @@
     "axios": "^1.19.0",
     "dayjs": "^1.11.21",
     "js-sha256": "^1.0.0",
+    "jspdf": "^4.2.1",
+    "jspdf-autotable": "^5.0.8",
     "motion": "^13.0.0",
     "react": "^19.2.8",
     "react-activity-calendar": "^3.2.1",
     "react-dom": "^19.2.8",
     "react-intersection-observer": "^11.0.0",
     "react-router-dom": "^7.18.2",
+    "recharts": "^3.10.1",
     "tailwindcss": "^4.3.3",
-    "three": "^0.185.1"
+    "three": "^0.185.1",
+    "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz"
   },
   "devDependencies": {
     "@types/node": "^24.13.3",
@@ -48,5 +52,8 @@
     "oxlint": "^1.75.0",
     "typescript": "~6.0.2",
     "vite": "^8.2.0"
+  },
+  "allowScripts": {
+    "core-js@3.50.0": true
   }
 }

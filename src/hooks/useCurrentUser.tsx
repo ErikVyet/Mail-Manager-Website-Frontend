@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import type { ResponseEntity } from "../interfaces/ResponseEntity";
 import type { User } from "../interfaces/User";
 import type { AxiosError } from "axios";
-import { fetchUser } from "../functions/user/fetchUser";
+import { fetchUser } from "../functions/user";
 
 function useCurrentUser() {
     const userContext = useContext(UserContext);

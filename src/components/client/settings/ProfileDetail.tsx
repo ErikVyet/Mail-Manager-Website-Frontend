@@ -9,10 +9,10 @@ import { UserContext } from "../../../contexts/UserContext";
 import { useCurrentUser } from "../../../hooks/useCurrentUser";
 import type { ResponseEntity } from "../../../interfaces/ResponseEntity";
 import type { User } from "../../../interfaces/User";
-import { updateUser } from "../../../functions/user/updateUser";
 import { Theme } from "../../../enums/Theme";
 import { ALERT_DURATION } from "../../../constants/other";
 import { BG_SKELETON_LIGHT, BG_SKELETON_DARK, AVATAR_OUTLINE, SHADOW_LIGHT, SHADOW_DARK, TEXT_LIGHT, TEXT_DARK, BG_INPUT_LIGHT, BG_INPUT_DARK } from "../../../constants/style";
+import { updateUser } from "../../../functions/user";
 
 function ProfileDetail() {
     const themeContext = useContext(ThemeContext);

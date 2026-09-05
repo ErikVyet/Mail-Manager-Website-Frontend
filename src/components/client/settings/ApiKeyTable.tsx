@@ -11,12 +11,11 @@ import { useAuth } from "@clerk/react";
 import { ThemeContext } from "../../../contexts/ThemeContext";
 import type { Api } from "../../../interfaces/Api";
 import type { ResponseEntity } from "../../../interfaces/ResponseEntity";
-import { fetchApiKeys } from "../../../functions/api/fetchApiKeys";
-import { createApiKey } from "../../../functions/api/createApiKey";
 import { ApiKeyFilterContext } from "../../../contexts/ApiKeyFilterContext";
 import { Theme } from "../../../enums/Theme";
 import { BG_DARK_SECONDARY, BG_INPUT_DARK, BG_INPUT_LIGHT, BG_LIGHT_SECONDARY, SHADOW_DARK, SHADOW_LIGHT, TEXT_DARK, TEXT_LIGHT } from "../../../constants/style";
 import { ALERT_DURATION } from "../../../constants/other";
+import { createApiKey, fetchApiKeys } from "../../../functions/api";
 
 function ApiKeyTable() {
     const themeContext = useContext(ThemeContext);
