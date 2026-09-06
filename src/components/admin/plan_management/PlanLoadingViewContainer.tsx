@@ -13,7 +13,7 @@ function PlanLoadingViewContainer() {
         <Grid spacing={3} container>
             {Array.from({ length: 3}).map((_, index) =>
                 <Grid size={4} key={index}>
-                    <Skeleton className={`${theme === Theme.Light ? BG_SKELETON_LIGHT : BG_SKELETON_DARK} rounded-lg!`} width={"100%"} height={320} variant={"rounded"}/>
+                    <Skeleton className={`${theme === Theme.Light ? BG_SKELETON_LIGHT : BG_SKELETON_DARK} rounded-lg!`} width={"100%"} height={360} variant={"rounded"}/>
                 </Grid>
             )}
         </Grid>

@@ -47,7 +47,7 @@ function PlanActivity() {
 
     const data: Activity[] = useMemo(() => {
         if (readPlanActivitiesQuery.data && typeof readPlanActivitiesQuery.data !== "function") {
-            return readPlanActivitiesQuery.data.data;
+            return readPlanActivitiesQuery.data.data as Activity[];
         }
         return [];
     }, [readPlanActivitiesQuery.data]);

@@ -40,7 +40,7 @@ function ActiveSubscriptionStatisticCard() {
 
     const data = useMemo(() => {
         if (readPlanSubscriptionCountsQuery.data && typeof readPlanSubscriptionCountsQuery.data !== "function") {
-            return readPlanSubscriptionCountsQuery.data.data;
+            return readPlanSubscriptionCountsQuery.data.data as { name: string, count: number }[];
         }
         return [];
     }, [readPlanSubscriptionCountsQuery.data]);
@@ -73,7 +73,7 @@ function ActiveSubscriptionStatisticCard() {
                             <Typography className="text-sm! font-sans! font-semibold!">
                                 {(() => {
                                     let totalCount = 0;
-                                    data.forEach(item => totalCount += item.count);
+                                    data?.forEach(item => totalCount += item.count);
                                     return totalCount;
                                 })()}
                             </Typography>

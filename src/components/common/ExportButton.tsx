@@ -6,15 +6,15 @@ import { Theme } from "../../enums/Theme";
 import { BG_DARK_PRIMARY, BG_LIGHT_PRIMARY, HOVER_BG_DARK, HOVER_BG_LIGHT, TEXT_DARK, TEXT_LIGHT } from "../../constants/style";
 import { utils, writeFile, writeFileXLSX } from "xlsx";
 import { jsPDF } from "jspdf";
-import { autoTable } from "jspdf-autotable";
+import { autoTable, type RowInput } from "jspdf-autotable";
 
 type ExportButtonProps = {
-    data: any[],
+    data?: any[],
     filename?: string,
     sheetName?: string
 }
 
-function ExportButton({ data, filename = "export_data", sheetName }: ExportButtonProps) {
+function ExportButton({ data = [], filename = "export_data", sheetName }: ExportButtonProps) {
     const themeContext = useContext(ThemeContext);
     if (!themeContext) return null;
     const { theme } = themeContext;
@@ -50,7 +50,7 @@ function ExportButton({ data, filename = "export_data", sheetName }: ExportButto
 
         autoTable(pdf, {
             head: [columns],
-            body: rows,
+            body: rows as RowInput[],
             startY: 30,
             theme: "grid",
             headStyles: { fillColor: [2, 132, 199] }

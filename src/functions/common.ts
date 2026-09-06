@@ -1,6 +1,7 @@
 import { Vector3 } from "three";
 import { randFloatSpread } from "three/src/math/MathUtils.js";
 import { Action } from "../enums/Action";
+import { BillingInterval } from "../enums/BillingInterval";
 
 export function generateRandomVector3(bound: number = 0): Vector3 {
     const x = randFloatSpread(bound);
@@ -33,5 +34,14 @@ export function numberToMonth(num: number): string {
         case (11): return "Nov";
         case (12): return "Dec";
         default: throw new Error("Invalid month value");
+    }
+}
+
+export function billingIntervalToString(billingInterval: BillingInterval): string {
+    switch (billingInterval) {
+        case (BillingInterval.Forever):
+        case (BillingInterval.Monthly): return "month";
+        case (BillingInterval.Yearly): return "year";
+        default: throw new Error("Invalid interval");
     }
 }

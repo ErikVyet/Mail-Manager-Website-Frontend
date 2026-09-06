@@ -47,13 +47,13 @@ function PlanRevenuesCard() {
 
     const data: Record<string, number | string>[] = useMemo(() => {
         if (readPlanTimelineRevenuesQuery.data && typeof readPlanTimelineRevenuesQuery.data !== "function") {
-            return readPlanTimelineRevenuesQuery.data.data.map(item => {
+            return readPlanTimelineRevenuesQuery?.data?.data?.map(item => {
                 const flattenItem: Record<string, number | string> = { timeline: [0, 1].includes(activeTimeIndex) ? numberToMonth(item.timeline) : item.timeline };
                 item.revenues.forEach(rev => {
                     flattenItem[rev.name] = rev.revenue;
                 });
                 return flattenItem;
-            });
+            }) as Record<string, number | string>[];
         }
         return [];
     }, [readPlanTimelineRevenuesQuery.data]);
@@ -93,7 +93,7 @@ function PlanRevenuesCard() {
                         </Stack>
                     </Stack>
                 </PlanRevenuesFilterContext.Provider>
-                <CustomLineChart data={data} width={"100%"} height={240} xDataKey={"timeline"} yDataKeys={data.length > 0 ? Object.keys(data.at(0)).filter(key => key !== "timeline") : [""]} xFontSize={13} yFontSize={13} animationDuration={1200} loading={readPlanTimelineRevenuesQuery.isLoading}/>
+                <CustomLineChart data={data!} width={"100%"} height={240} xDataKey={"timeline"} yDataKeys={data!.length > 0 ? Object.keys(data!.at(0)!).filter(key => key !== "timeline") : [""]} xFontSize={13} yFontSize={13} animationDuration={1200} loading={readPlanTimelineRevenuesQuery.isLoading}/>
             </Grid>
             <Snackbar open={openAlert} autoHideDuration={ALERT_DURATION} anchorOrigin={{ vertical: "bottom", horizontal: "right" }} onClose={handleCloseAlert} onClick={(_event: MouseEvent) => _event.stopPropagation()}>
                 <Alert severity={"error"} variant={"filled"} onClose={handleCloseAlert}>{message}</Alert>

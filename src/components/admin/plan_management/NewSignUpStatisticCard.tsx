@@ -41,7 +41,7 @@ function NewSignUpStatisticCard() {
 
     const data: { month: string, count: number }[] = useMemo(() => {
         if (readPlanNewSignUpCountsQuery.data && typeof readPlanNewSignUpCountsQuery.data !== "function") {
-            return readPlanNewSignUpCountsQuery.data.data;
+            return readPlanNewSignUpCountsQuery.data.data as { month: string, count: number }[];
         }
         return [];
     }, [readPlanNewSignUpCountsQuery.data]);
@@ -69,7 +69,7 @@ function NewSignUpStatisticCard() {
                     <Stack className="py-4 justify-between items-center" direction={"row"}>
                         <Stack className={`items-center gap-1.5 ${theme === Theme.Light ? TEXT_LIGHT : TEXT_DARK}`} direction={"row"}>
                             <Typography className="text-sm! font-sans! line-clamp-1">New Signups (This Month):</Typography>
-                            <Typography className="text-sm! font-sans! font-semibold!">{data.at(dayjs().month()).count}</Typography>
+                            <Typography className="text-sm! font-sans! font-semibold!">{data?.at(dayjs().month())?.count}</Typography>
                         </Stack>
                         <ExportButton data={data} filename={"new-signup-statistic"}/>
                     </Stack>

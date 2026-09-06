@@ -13,7 +13,7 @@ function PlanStatistic() {
     const { theme } = themeContext; 
 
     return (
-        <Box>
+        <Box className="pt-4">
             <Typography className={`py-4 text-lg! font-sans! font-semibold! ${theme === Theme.Light ? TEXT_LIGHT : TEXT_DARK}`}>Plan Statistics</Typography>
             <Grid spacing={3} container>
                 <ActiveSubscriptionStatisticCard/>

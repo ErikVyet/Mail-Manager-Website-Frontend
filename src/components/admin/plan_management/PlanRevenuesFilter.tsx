@@ -52,7 +52,7 @@ function PlanRevenuesFilter() {
 
     const data: Plan[] = useMemo(() => {
         if (readPlansQuery.data && typeof readPlansQuery.data !== "function") {
-            return readPlansQuery.data.data;
+            return readPlansQuery.data.data as Plan[];
         }
         return [];
     }, [readPlansQuery.data]);
@@ -100,7 +100,7 @@ function PlanRevenuesFilter() {
                         <Button className={`font-sans! font-normal! normal-case! ${index === activeTimeIndex && 'border-blue-500! bg-blue-500/20!'}`} key={index} onClick={() => handleActiveTimeIndexChanges(index)}>{label}</Button>
                     )}
                 </ButtonGroup>
-                <Select className={`text-xs! ${theme === Theme.Light ? `${TEXT_LIGHT} [&_.MuiOutlinedInput-notchedOutline]:border-zinc-300!` : `${TEXT_DARK} [&_.MuiOutlinedInput-notchedOutline]:border-zinc-800!`} [&.Mui-focused_.MuiOutlinedInput-notchedOutline]:border!`} value={activePlanId?.toString() ?? "null"} size={"small"} endAdornment={<ExpandMore className={`size-4! mr-2! ${theme === Theme.Light ? TEXT_LIGHT : TEXT_DARK}`} component={motion.svg} initial={{ rotate: "0deg" }} animate={{ rotate: openSelect ? "180deg" : "0deg" }}/>} IconComponent={null} MenuProps={{ slotProps: { paper: { className: theme === Theme.Light ? BG_LIGHT_PRIMARY : BG_DARK_PRIMARY } } }} autoWidth onChange={handleActivePlanIdChanges} onOpen={handleOpenSelect} onClose={handleCloseSelect}>
+                <Select className={`text-xs! ${theme === Theme.Light ? `${TEXT_LIGHT} [&_.MuiOutlinedInput-notchedOutline]:border-zinc-300!` : `${TEXT_DARK} [&_.MuiOutlinedInput-notchedOutline]:border-zinc-800!`} [&.Mui-focused_.MuiOutlinedInput-notchedOutline]:border!`} value={activePlanId?.toString() ?? "null"} size={"small"} endAdornment={<ExpandMore className={`size-4! mr-2! ${theme === Theme.Light ? TEXT_LIGHT : TEXT_DARK}`} component={motion.svg} initial={{ rotate: "0deg" }} animate={{ rotate: openSelect ? "180deg" : "0deg" }}/>} IconComponent={undefined} MenuProps={{ slotProps: { paper: { className: theme === Theme.Light ? BG_LIGHT_PRIMARY : BG_DARK_PRIMARY } } }} autoWidth onChange={handleActivePlanIdChanges} onOpen={handleOpenSelect} onClose={handleCloseSelect}>
                     <MenuItem className={`text-xs! ${theme === Theme.Light ? TEXT_LIGHT : TEXT_DARK}`} value={"null"}>All plans</MenuItem>
                     {data.map((plan, index) =>
                         <MenuItem className={`text-xs! ${theme === Theme.Light ? TEXT_LIGHT : TEXT_DARK}`} value={plan.id.toString()} key={index}>{plan.name}</MenuItem>
